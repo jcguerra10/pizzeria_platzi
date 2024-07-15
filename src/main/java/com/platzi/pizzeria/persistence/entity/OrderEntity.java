@@ -19,8 +19,8 @@ public class OrderEntity {
     @Column(name = "id_order", nullable = false)
     private Integer idOrder;
 
-    @Column(name = "id_costumer", nullable = false, length = 15)
-    private String idCostumer;
+    @Column(name = "id_customer", nullable = false, length = 15)
+    private String idCustomer;
 
     @Column(nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime date;
@@ -35,7 +35,7 @@ public class OrderEntity {
     private String additionalNotes;
 
     @OneToOne
-    @JoinColumn(name = "id_costumer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "order")
