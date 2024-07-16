@@ -4,6 +4,7 @@ import com.platzi.pizzeria.persistence.entity.PizzaEntity;
 import com.platzi.pizzeria.persistence.repository.PizzaPagSortRepository;
 import com.platzi.pizzeria.persistence.repository.PizzaRepository;
 import com.platzi.pizzeria.service.dto.UpdatePizzaPriceDto;
+import com.platzi.pizzeria.service.exception.EmailApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,8 +70,15 @@ public class PizzaService {
         pizzaRepository.deleteById(idPizza);
     }
 
-    @Transactional
+    // Si ocurre un error al enviar el correo, la transacción se deshace,
+    // pero se puede hacer un rollback solo si la excepción es de tipo EmailApiException
+    @Transactional(noRollbackFor = EmailApiException.class)
     public void updatePrice(UpdatePizzaPriceDto updatePizzaPriceDto) {
         pizzaRepository.updatePrice(updatePizzaPriceDto);
+        this.sendEmail();
+    }
+
+    private void sendEmail() {
+        throw new EmailApiException();
     }
 }
