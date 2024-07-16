@@ -28,8 +28,16 @@ public class PizzaService {
         return pizzaRepository.findById(idPizza).orElse(null);
     }
 
-    public PizzaEntity get(String name) {
+    public PizzaEntity getByName(String name) {
         return pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
+    }
+
+    public List<PizzaEntity> getWith(String description) {
+        return pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(description);
+    }
+
+    public List<PizzaEntity> getWithout(String description) {
+        return pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(description);
     }
 
     public PizzaEntity save(PizzaEntity pizzaEntity) {
